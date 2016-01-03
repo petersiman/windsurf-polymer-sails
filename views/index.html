@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>winsurf-polymer-sails</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="/bower_components/polymer/polymer.html">
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="import" href="/bower_components/app-router/app-router.html">
+  <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+  <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+  <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="/bower_components/iron-list/iron-list.html">
+</head>
+
+<body unresolved fulbleed>
+
+  <app-router id="main-router">
+      <app-route path="/" import="/elements/app-main/app-main.html"></app-route>
+      <app-route path="*" redirect="/"></app-route>
+  </app-router>
+</body>
+
+</html>

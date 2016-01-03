@@ -1,0 +1,16 @@
+core-header-panel {
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+core-toolbar {
+  background: #f45c1c;
+  color: white;
+  font-size: 1.2em;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}

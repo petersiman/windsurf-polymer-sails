@@ -1,0 +1,23 @@
+{
+  "name": "winsurf-polymer-sails",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "polymer": "^1.1.0",
+    "webcomponentsjs": "^0.7.18",
+    "components-font-awesome": "~4.1.0",
+    "platform": "~0.4.0",
+    "jquery": "~2.1.1",
+    "moment": "~2.8.3",
+    "app-router": "2.6.1",
+    "iron-list": "PolymerElements/iron-list#~1.1.7",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
+    "paper-scroll-header-panel": "PolymerElements/paper-scroll-header-panel#~1.0.14",
+    "paper-toolbar": "PolymerElements/paper-toolbar#~1.1.2",
+    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.6",
+    "font-roboto": "~0.0.2"
+  },
+  "resolutions": {
+    "font-roboto": "^1.0.1"
+  }
+}

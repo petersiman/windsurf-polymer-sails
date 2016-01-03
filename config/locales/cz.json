@@ -1,0 +1,27 @@
+{
+    "filter.advert.type": "Typ inzerátu:",
+    "filter.advert.category": "Kategorie:",
+    "advert.category.complete": "Komplet",
+    "advert.category.sail": "Plachta",
+    "advert.category.board": "Prkno",
+    "advert.category.clothes": "Oblečení",
+    "advert.type.sell": "Prodám",
+    "advert.type.buy": "Koupím",
+    "advert.price": "Cena",
+    "advert.contact.user": "Kontaktovat uživatele",
+    "advert.created.at": "Vytvořeno:",
+    "common.msg.next": "Další",
+    "common.msg.no-items": "Nebyly nalezeny žádné položky.",
+    "advert.login-to-add-advert" : "Pro vložení inzerátu se musíte přihlásit.",
+    "advert.button-add": "Přidat inzerát",
+    "advert.actions" : "Akce",
+    "advert.edit" : "Upravit",
+    "advert.sold" : "Prodáno!",
+    "advert.delete": "Smazat",
+    "advert.created-at" : "Vytvořeno",
+    "nav.advert" : "Inzeráty",
+    "nav.contact" : "Kontakty",
+    "nav.about" : "O nás",
+    "nav.signin" : "Přihlásit se"
+    
+}
