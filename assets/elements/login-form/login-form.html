@@ -1,0 +1,44 @@
+<dom-module id="login-form">
+  <link rel="import" type="css" href="login-form.css">
+  <template>
+    <div class="login-page-root">
+            <div id="login-page" class="layout vertical">
+                <div class="flex">
+                    <div class="layout horizontal center-justified">
+                        <p class="title">Windsurfing portal</p>
+                    </div>
+                </div>
+                <div class="layout horizontal flex">
+                    <div class="flex"></div>
+                    <paper-card id="dialog" class="flex" heading="Login">
+                        <div class="card-content">
+                            <paper-input id="username" label="Username" value="{{user.username}}"
+                                         autofocus></paper-input>
+                            <paper-input label="Password" type="password" value="{{user.password}}"></paper-input>
+                            <div class="layout horizontal">
+                                <paper-checkbox class="remember-me" on-click="">Remember me</paper-checkbox>
+                            </div>
+                        </div>
+                        <div class="card-actions layout horizontal end-justified">
+                            <paper-button on-click="login">Login</paper-button>
+                        </div>
+                    </paper-card>
+                    <div class="flex"></div>
+                </div>
+            </div>
+        </div>
+        <paper-toast id="toast" text=""></paper-toast>
+        <iron-a11y-keys target="{{dialog}}" keys="enter" on-keys-pressed="login"></iron-a11y-keys>
+        <iron-ajax id="xhr" method="POST"
+                   content-type="application/json"
+                   url="/auth/login"
+                   handle-as="json"
+                   body="{{user}}"
+                   on-response="loginCallback"
+                   on-error="errorCallback">
+        </iron-ajax>
+  </template>
+  <script>
+    Polymer({is: "login-form"});
+  </script>
+</dom-module>

@@ -1,0 +1,24 @@
+div.login-page-root {
+    /*background-image: url("/images/background.jpg");*/
+    height: 100%;
+}
+
+paper-card {
+    opacity: 0.9;
+}
+
+p.title {
+    color: white;
+    font-size: 94px;
+    font-family: KgSketch, Roboto, SansSerif;
+    margin: 32px;
+}
+
+paper-button {
+    color: white;
+    background-color: #19334C;
+}
+
+.card-content {
+    padding-top: 0;
+}
