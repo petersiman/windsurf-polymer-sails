@@ -6,14 +6,24 @@
 
     <paper-drawer-panel>
 
-      <menu-panel drawer></menu-panel>
+      <menu-panel drawer>
+      </menu-panel>
+
+
 
       <paper-header-panel condenses keep-condensed-header main>
           <paper-toolbar class="medium">
             <div class="spacer"></div>
             <paper-icon-button icon="add" alt="Search"></paper-icon-button>
             <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
+            <paper-button data-dialog="login-modal" id="login-button">modal dialog</paper-button>
           </paper-toolbar>
+          <paper-dialog id="login-modal" modal>
+            <p>Login to add some advert.</p>
+            <div class="buttons">
+              <paper-button dialog-confirm autofocus>Close</paper-button>
+            </div>
+          </paper-dialog>
         <iron-list items="[[data]]" as="item">
           <template>
             <div>
@@ -33,6 +43,25 @@
     </paper-drawer-panel>
   </template>
   <script>
-    Polymer({is: "app-main"});
+    Polymer({
+      is: "app-main",
+      listeners: {
+        'login-button.click': 'loginClickHandler'
+      },
+      loginClickHandler: function(e){
+        var button = e.target;
+        while (!button.hasAttribute('data-dialog') && button !== document.body) {
+          button = button.parentElement;
+        }
+        if (!button.hasAttribute('data-dialog')) {
+          return;
+        }
+        var id = button.getAttribute('data-dialog');
+        var dialog = document.getElementById(id);
+        if (dialog) {
+          dialog.open();
+        }
+      }
+    });
   </script>
 </dom-module>
