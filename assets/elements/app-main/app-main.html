@@ -1,6 +1,7 @@
 <dom-module id="app-main">
   <link rel="stylesheet" href="app-main.css">
   <link rel="import" href="../../elements/menu-panel/menu-panel.html">
+  <link rel="import" href="../../elements/login-form/login-form.html">
   <template>
     <iron-ajax url="/advert/list" last-response="{{data}}" auto></iron-ajax>
 
@@ -16,10 +17,10 @@
             <div class="spacer"></div>
             <paper-icon-button icon="add" alt="Search"></paper-icon-button>
             <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
-            <paper-button data-dialog="login-modal" id="login-button">modal dialog</paper-button>
+            <paper-icon-button icon="account-circle" data-dialog="login-modal" title="Login" id="login-button" alt="Login"></paper-icon-button>
           </paper-toolbar>
           <paper-dialog id="login-modal" modal>
-            <p>Login to add some advert.</p>
+            <login-form></login-form>
             <div class="buttons">
               <paper-button dialog-confirm autofocus>Close</paper-button>
             </div>
