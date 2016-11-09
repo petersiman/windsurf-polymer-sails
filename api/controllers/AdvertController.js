@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+
+
 module.exports = {
     new: function(req,res){
         res.view();
@@ -42,6 +44,9 @@ module.exports = {
     },
     list: function (req, res) {
 		console.log("Looking for adverts ...");
+        if (cloudinary){
+          console.log('cloudinary ready');
+        }
         var filter = {};
         if (req.param('advertType')){
             console.log('Filtering...');
@@ -95,6 +100,9 @@ module.exports = {
 
     },
     create: function (req, res, next) {
+        var result = {
+          'success' : false
+        };
         var advertToBe = req.params.all();
         advertToBe.creator = req.user;
         console.log('Request params: ' + JSON.stringify(req.params.all()));
@@ -137,16 +145,14 @@ module.exports = {
                         req.session.flash = {
                             err: err
                         }
-
-                        return res.redirect('/advert/new');
+                        result.err = err;
+                    } else {
+                      result.success = true;
                     }
                     console.log(JSON.stringify(advert));
-                    res.redirect('/advert/show');
+                    res.send(result);
                 });
-              // return res.json({
-                // files: uploadedFiles,
-                // textParams: req.params.all()
-              // });
+
               }
             });
 

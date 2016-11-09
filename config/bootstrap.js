@@ -16,7 +16,7 @@ module.exports.bootstrap = function(cb) {
   moment = require('moment');
   var LocalStrategy = require('passport-local').Strategy;
   sails.services.passport.loadStrategies();
-    
+
     User.findOne({username : 'test'}, function(err, user){
         if (!user) {
             console.log('Default user doesnt exist.');
@@ -31,11 +31,17 @@ module.exports.bootstrap = function(cb) {
                     console.log('Default user ' + newUser.username + ' was successfully created.');
                 }
             });
-        } 
+        }
     });
-    
-    
-    
+
+
+    cloudinary = require('cloudinary');
+
+    cloudinary.config({
+      cloud_name: 'sample',
+      api_key: '874837483274837',
+      api_secret: 'a676b67565c6767a6767d6767f676fe1'
+    });
 
   cb();
 };
