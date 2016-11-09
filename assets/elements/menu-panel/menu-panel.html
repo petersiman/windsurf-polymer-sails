@@ -1,15 +1,35 @@
 <dom-module id="menu-panel">
+  <link rel="import" type="css" href="menu-panel.css">
   <template>
     <paper-header-panel>
       <paper-toolbar></paper-toolbar>
       <paper-menu>
         <paper-submenu>
-          <paper-item class="menu-trigger">Inzeraty</paper-item>
+          <paper-item class="menu-trigger">Typ inzerátu</paper-item>
           <paper-menu class="menu-content">
             <paper-item>Predám</paper-item>
             <paper-item>Kúpim</paper-item>
           </paper-menu>
         </paper-submenu>
+        <paper-submenu>
+          <paper-item class="menu-trigger">Kategória</paper-item>
+          <paper-menu class="menu-content">
+            <paper-item>Komplet</paper-item>
+            <paper-item>Doska</paper-item>
+            <paper-item>Plachta</paper-item>
+            <paper-item>Príslušenstvo</paper-item>
+          </paper-menu>
+        </paper-submenu>
+        <paper-submenu>
+          <paper-item class="menu-trigger">Lokalita</paper-item>
+          <paper-menu class="menu-content">
+            <paper-item>Jihomoravský kraj</paper-item>
+            <paper-item>Praha</paper-item>
+            <paper-item>Blabla</paper-item>
+            <paper-item>Blablabla</paper-item>
+          </paper-menu>
+        </paper-submenu>
+
       </paper-menu>
     </paper-header-panel>
   </template>

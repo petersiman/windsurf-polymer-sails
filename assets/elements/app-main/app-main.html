@@ -2,6 +2,8 @@
   <link rel="stylesheet" href="app-main.css">
   <link rel="import" href="../../elements/menu-panel/menu-panel.html">
   <link rel="import" href="../../elements/login-form/login-form.html">
+  <link rel="import" href="../../elements/add-item-form/add-item-form.html">
+
   <template>
     <iron-ajax url="/advert/list" last-response="{{data}}" auto></iron-ajax>
 
@@ -15,7 +17,7 @@
       <paper-header-panel condenses keep-condensed-header main>
           <paper-toolbar class="medium">
             <div class="spacer"></div>
-            <paper-icon-button icon="add" alt="Search"></paper-icon-button>
+            <paper-icon-button icon="add" data-dialog="add-item-modal" id="add-item-button" alt="Add new"></paper-icon-button>
             <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
             <paper-icon-button icon="account-circle" data-dialog="login-modal" title="Login" id="login-button" alt="Login"></paper-icon-button>
           </paper-toolbar>
@@ -25,6 +27,7 @@
               <paper-button dialog-confirm autofocus>Close</paper-button>
             </div>
           </paper-dialog>
+          <add-item-form></add-item-form>
         <iron-list items="[[data]]" as="item">
           <template>
             <div>
@@ -47,9 +50,10 @@
     Polymer({
       is: "app-main",
       listeners: {
-        'login-button.click': 'loginClickHandler'
+        'login-button.click': 'modalBtnClickHandler',
+        'add-item-button.click': 'modalBtnClickHandler'
       },
-      loginClickHandler: function(e){
+      modalBtnClickHandler: function(e){
         var button = e.target;
         while (!button.hasAttribute('data-dialog') && button !== document.body) {
           button = button.parentElement;

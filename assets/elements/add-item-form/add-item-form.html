@@ -1,0 +1,51 @@
+<dom-module id="add-item-form">
+  <link rel="import" type="css" href="add-item-form.css">
+  <template>
+      <paper-dialog id="add-item-modal" modal>
+        <h2>Add item {{advert.title}}</h2>
+        <div class="card-content">
+          <form is="iron-form" method="post" action="/advert/create" id="item-form">
+            <paper-input id="title" label="Title" value="{{advert.title}}"
+                         autofocus required></paper-input>
+                         <br />
+             <paper-dropdown-menu label="Typ inzerátu" name="advertType" toggles>
+              <paper-listbox class="dropdown-content" selected="1">
+                <paper-item>predám</paper-item>
+                <paper-item>kúpim</paper-item>
+                <paper-item>darujem</paper-item>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <br />
+            <paper-dropdown-menu label="Kategória" name="advertCategory">
+               <paper-listbox class="dropdown-content" selected="1">
+                 <paper-item>komplet</paper-item>
+                 <paper-item>plachta</paper-item>
+                 <paper-item>doska</paper-item>
+                 <paper-item>príslušenstvo</paper-item>
+               </paper-listbox>
+             </paper-dropdown-menu>
+             <br />
+          <paper-textarea label="Popis" name="advertBody"></paper-textarea>
+           <paper-input id="price" allowed-pattern="[0-9]" label="Price" value="{{advert.price}}" autofocus>
+              <div suffix>Kc</div>
+           </paper-input>
+          </form>
+
+        </div>
+        <div class="buttons">
+          <paper-button on-click="submit">Odeslat</paper-button>
+          <paper-button dialog-confirm autofocus>Close</paper-button>
+        </div>
+      </paper-dialog>
+
+    <paper-toast id="toast" text=""></paper-toast>
+  </template>
+  <script>
+    Polymer({
+      is: "add-item-form",
+      submit: function(e){
+        console.log('Submit pressed!');
+      }
+    });
+  </script>
+</dom-module>
