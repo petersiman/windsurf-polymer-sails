@@ -170,6 +170,11 @@ module.exports = {
           result.success = true;
       }
       res.send(result);
+    },
+    upload: function(req, res){
+      var result = {};
+      console.log('Uploading image')
+      res.send(result);
     }
 
 };

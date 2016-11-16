@@ -12,6 +12,5 @@ module.exports = {
             res.sendfile(image.path);
         });
     }
-	
-};
 
+};

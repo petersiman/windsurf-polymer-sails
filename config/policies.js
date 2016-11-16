@@ -27,18 +27,19 @@ module.exports.policies = {
   ***************************************************************************/
 
     '*': [ 'passport', 'sessionAuth' ],
-    'user': {
+    'UserController': {
         'new' : ['passport'],
         'create' : ['passport']
     },
-    'auth': {
-      '*': ['passport']
+    'AuthController': {
+      '*': ['passport'],
     },
-    'advert': {
-        '*' : ['passport'],
-        'list' : []
+    'AdvertController': {
+        '*' : ['passport', 'sessionAuth'],
+        'list' : ['passport'],
+        'create' : ['passport']
     },
-    'image' : {
+    'ImageController' : {
         '*' : ['passport']
     }
 

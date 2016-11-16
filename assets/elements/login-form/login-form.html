@@ -1,37 +1,52 @@
 <dom-module id="login-form">
   <link rel="import" type="css" href="login-form.css">
   <template>
-    <div class="login-page-root">
-      <paper-card id="dialog" heading="Login">
-
-          <div class="card-content">
-            <form is="iron-form" method="get" action="/" id="basic">
-              <paper-input id="username" label="Username" value="{{user.username}}"
-                           autofocus></paper-input>
-              <paper-input label="Password" type="password" value="{{user.password}}"></paper-input>
-              <div class="layout horizontal">
-                  <paper-checkbox class="remember-me" on-click="">Remember me</paper-checkbox>
-              </div>
-            </form>
-
+    <paper-dialog id="login-modal" modal>
+      <h2>Login</h2>
+      <div class="card-content">
+        <form is="iron-form" method="get" action="/" id="loginForm">
+          <paper-input id="username" name="username" label="Username" value=""
+                       autofocus></paper-input>
+          <paper-input id="password" name="password" label="Password" type="password" value=""></paper-input>
+          <div class="layout horizontal">
+              <paper-checkbox class="remember-me" on-click="">Remember me</paper-checkbox>
           </div>
-          <div class="card-actions layout horizontal end-justified">
-              <paper-button on-click="login">Login</paper-button>
-          </div>
-      </paper-card>
-    </div>
-    <paper-toast id="toast" text=""></paper-toast>
-    <iron-a11y-keys target="{{dialog}}" keys="enter" on-keys-pressed="login"></iron-a11y-keys>
-    <iron-ajax id="xhr" method="POST"
-               content-type="application/json"
-               url="/auth/login"
-               handle-as="json"
-               body="{{user}}"
-               on-response="loginCallback"
-               on-error="errorCallback">
-    </iron-ajax>
+        </form>
+
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
+        <paper-button on-click="login">Login</paper-button>
+      </div>
+      <paper-toast id="toast" text=""></paper-toast>
+      <iron-a11y-keys target="{{dialog}}" keys="enter" on-keys-pressed="login"></iron-a11y-keys>
+      <iron-request id="loginXhrRequest"
+                 on-response="loginCallback"
+                 on-error="errorCallback">
+      </iron-request>
+    </paper-dialog>
+
   </template>
   <script>
-    Polymer({is: "login-form"});
+    Polymer({
+      is: "login-form",
+      login: function(){
+        var loginReq = this.$.loginXhrRequest;
+        console.log('Login pressed');
+        var loginForm = this.$.loginForm;
+        loginReq.send({
+          'url': '/auth/local',
+          'method': 'post',
+          'body' : JSON.stringify(loginForm.serialize())
+        });
+      },
+      loginCallback: function(data){
+        console.log(data);
+      },
+      errorCallback(data){
+        console.log('Error');
+        console.log(data);
+      }
+    });
   </script>
 </dom-module>

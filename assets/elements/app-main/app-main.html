@@ -1,16 +1,12 @@
+<!doctype html>
 <dom-module id="app-main">
   <link rel="stylesheet" href="app-main.css">
   <link rel="import" href="../../elements/menu-panel/menu-panel.html">
   <link rel="import" href="../../elements/login-form/login-form.html">
   <link rel="import" href="../../elements/add-item-form/add-item-form.html">
+  <link rel="import" href="../../elements/search-bar/search-bar.html">
 
   <template>
-    <iron-ajax url="/advert/list" last-response="{{data}}" auto></iron-ajax>
-
-    <paper-drawer-panel>
-
-      <menu-panel drawer>
-      </menu-panel>
 
 
 
@@ -21,30 +17,13 @@
             <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
             <paper-icon-button icon="account-circle" data-dialog="login-modal" title="Login" id="login-button" alt="Login"></paper-icon-button>
           </paper-toolbar>
-          <paper-dialog id="login-modal" modal>
-            <login-form></login-form>
-            <div class="buttons">
-              <paper-button dialog-confirm autofocus>Close</paper-button>
-            </div>
-          </paper-dialog>
+
+          <login-form></login-form>
+
           <add-item-form></add-item-form>
-        <iron-list items="[[data]]" as="item">
-          <template>
-            <div>
-              <div class="item">
-                <img class="avatar" src="[[item.image]]">
-                <div class="pad">
-                  <div class="primary">[[item.name]]</div>
-                  <div class="secondary">[[item.shortText]]</div>
-                  <div class="secondary dim">[[item.longText]]</div>
-                </div>
-                <iron-icon icon$="[[iconForItem(item)]]"></iron-icon>
-              </div>
-            </div>
-          </template>
-        </iron-list>
+        <search-bar></search-bar>
+
       </paper-header-panel>
-    </paper-drawer-panel>
   </template>
   <script>
     Polymer({

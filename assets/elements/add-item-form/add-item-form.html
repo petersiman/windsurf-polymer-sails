@@ -1,5 +1,7 @@
+<!doctype html>
 <dom-module id="add-item-form">
   <link rel="import" type="css" href="add-item-form.css">
+  <link rel="import" href="../../bower_components/file-upload/file-upload.html" />
   <template>
       <iron-ajax url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
       <paper-dialog id="add-item-modal" modal>
@@ -12,19 +14,19 @@
                          <br />
              <paper-dropdown-menu label="Typ inzerátu" name="advertType" toggles>
               <paper-listbox class="dropdown-content" selected="1">
-                <paper-item value="sell">predám</paper-item>
-                <paper-item value="buy">kúpim</paper-item>
-                <paper-item value="give">darujem</paper-item>
+                <paper-item value="sell">sell</paper-item>
+                <paper-item value="buy">buy</paper-item>
+                <paper-item value="give">dagiverujem</paper-item>
               </paper-listbox>
             </paper-dropdown-menu>
             <br />
             <paper-dropdown-menu label="Kategória" name="advertCategory">
                <paper-listbox class="dropdown-content" selected="1">
-                 <paper-item value="complete">komplet</paper-item>
-                 <paper-item value="sail">plachta</paper-item>
-                 <paper-item value="board">doska</paper-item>
-                 <paper-item value="clothes">oblečení</paper-item>
-                 <paper-item value="other">jiné</paper-item>
+                 <paper-item value="complete">complete</paper-item>
+                 <paper-item value="sail">sail</paper-item>
+                 <paper-item value="board">board</paper-item>
+                 <paper-item value="clothes">clothes</paper-item>
+                 <paper-item value="other">other</paper-item>
                </paper-listbox>
              </paper-dropdown-menu>
              <br />
@@ -33,9 +35,10 @@
              <paper-input id="price" name="price" allowed-pattern="[0-9]" label="Price" value="{{advert.price}}" autofocus>
                 <div suffix>Kc</div>
              </paper-input>
+             <file-upload droppable="true" target="/advert/upload" multi="true"></file-upload>
              <div class="buttons">
-               <paper-button id="submit-btn" raised>Odeslat</paper-button>
-               <paper-button dialog-confirm autofocus>Close</paper-button>
+               <paper-button id="submit-btn" raised autofocus>Odeslat</paper-button>
+               <paper-button dialog-confirm>Close</paper-button>
              </div>
           </form>
           <iron-request id="formSubmitXhr"></iron-request>
@@ -65,12 +68,11 @@
       },
       paperBtnSubmitListener: function(e){
         console.log('Submit pressed!');
-        var form = this.$.createItemForm;
-        console.log(form);
+        form = this.$.createItemForm;
         this.$.formSubmitXhr.send({
           'url' : '/advert/create',
           'method' : 'post',
-          'params' : new FormData(form)
+          'body' : JSON.stringify(form.serialize())
         });
       }
     });

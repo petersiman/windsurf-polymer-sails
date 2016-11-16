@@ -57,7 +57,7 @@ module.exports.passport = {
     // }
   // },
 
-  
+
 
   // cas: {
     // name: 'CAS',
