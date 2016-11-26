@@ -63,19 +63,6 @@
 		 }
 
 	 </style>
-			<iron-ajax id="advertAjax" url="/advert/list" on-response="handleResponse"></iron-ajax>
-			<paper-search-panel
-				placeholder="Search ..."
-				hide-filter-button="[[hideFilterButton]]"
-				search="{{search}}"
-				count="{{count}}"
-				items="{{adverts}}"
-				has-more="[[hasMore]]"
-				loading="[[loading]]"
-				filters="[[filters]]"
-				selected-filters="{{selectedFilters}}"
-				on-change-request-params="loadData">
-			</paper-search-panel>
 			<iron-list items="[[adverts]]" as="item" grid>
 				<template>
 					<div class="photoContainer">
@@ -112,25 +99,7 @@
 				open : function() {
 					this.$.dialog.open();
 				},
-				loadData : function() {
-					// Simulate a 100ms data load
-					this.loading = true;
-					this.adverts = []
-					if (this.$.advertAjax.lastRequest) {
-            this.$.advertAjax.lastRequest.abort();
-          }
 
-					this.$.advertAjax.generateRequest();
-				},
-				handleResponse: function(e){
-					this.loading = false;
-					if (e && e.detail && e.detail.response){
-						e.detail.response.forEach(function(item){
-							this.hasItems = true;
-							this.push('adverts', item);
-						}, this);
-					}
-				},
 				properties : {
 					adverts: {
 					 type: Array,
@@ -141,50 +110,7 @@
 						value: true
 					},
 
-					selectedFilters : {
-						type: Object,
-						value: {
-							advertType: [ "buy", "give" ],
-							advertCategory: [ "sail" ]
-						}
-					},
-					filters : {
-						type: Array,
-						value: [
-							{
-								id: "advertType",
-								name: "Advert Type",
-								values: [
-									{
-										id: "buy",
-										name: "Buy",
-									},
-									{
-										id: "sell",
-										name: "Sell",
-									},
-									{
-										id: "give",
-										name: "Give",
-									}
-								]
-							},
-							{
-								id: "advertCategory",
-								name: "Advert Category",
-								values: [
-									{
-										id: "sail",
-										name: "Sail"
-									},
-									{
-										id: "board",
-										name: "Board"
-									}
-								]
-							}
-						]
-					}
+
 				},
 				_continueLoop: function(index){
 					if (index > 0) {
