@@ -15,13 +15,14 @@
 
       <paper-header-panel condenses keep-condensed-header main>
           <paper-toolbar class="medium">
+            <paper-icon-button icon="menu"></paper-icon-button>
+            <span class="title">Windsurfing portal</span>
             <paper-search-bar placeholder="Enter search term" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
-            <paper-filter-dialog id="filterDialog" filters="[[filters]]" selected-filters="{{selectedFilters}}" ></paper-filter-dialog>
-            <div class="spacer"></div>
             <paper-icon-button icon="add" data-dialog="add-item-modal" id="add-item-button" alt="Add new"></paper-icon-button>
-            <paper-icon-button icon="more-vert" alt="More options"></paper-icon-button>
             <paper-icon-button icon="account-circle" data-dialog="login-modal" title="Login" id="login-button" alt="Login"></paper-icon-button>
           </paper-toolbar>
+          <paper-filter-dialog id="filterDialog" filters="[[filters]]" selected-filters="{{selectedFilters}}" ></paper-filter-dialog>
+
 
           <login-form></login-form>
 
