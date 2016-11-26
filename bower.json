@@ -31,7 +31,9 @@
     "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
     "paper-search": "^1.2.0",
     "iron-form": "^1.1.4",
-    "file-upload": "^2.0.0"
+    "file-upload": "^2.0.0",
+    "paper-dialog-scrollable": "^1.1.5",
+    "iron-image": "^1.2.5"
   },
   "resolutions": {
     "font-roboto": "^1.0.1"

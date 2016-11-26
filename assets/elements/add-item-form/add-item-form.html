@@ -6,44 +6,48 @@
       <iron-ajax url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
       <paper-dialog id="add-item-modal" modal>
         <h2>{{title}}</h2>
-        <div class="card-content">
-          <form is="iron-form" method="post" action="/advert/create" id="createItemForm">
-            <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
-            <paper-input id="title" label="Title" name="title" value="{{advert.title}}"
-                         autofocus required char-counter maxlength="30"></paper-input>
-                         <br />
-             <paper-dropdown-menu label="Typ inzerátu" name="advertType" toggles>
-              <paper-listbox class="dropdown-content" selected="1">
-                <paper-item value="sell">sell</paper-item>
-                <paper-item value="buy">buy</paper-item>
-                <paper-item value="give">dagiverujem</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
-            <br />
-            <paper-dropdown-menu label="Kategória" name="advertCategory">
-               <paper-listbox class="dropdown-content" selected="1">
-                 <paper-item value="complete">complete</paper-item>
-                 <paper-item value="sail">sail</paper-item>
-                 <paper-item value="board">board</paper-item>
-                 <paper-item value="clothes">clothes</paper-item>
-                 <paper-item value="other">other</paper-item>
-               </paper-listbox>
-             </paper-dropdown-menu>
-             <br />
-             <paper-textarea label="Popis" id="advertBody" name="advertBody" value="{{advert.advertBody}}" required></paper-textarea>
-             <br />
-             <paper-input id="price" name="price" allowed-pattern="[0-9]" label="Price" value="{{advert.price}}" autofocus>
-                <div suffix>Kc</div>
-             </paper-input>
-             <file-upload droppable="true" target="/advert/upload" multi="true"></file-upload>
-             <div class="buttons">
-               <paper-button id="submit-btn" raised autofocus>Odeslat</paper-button>
-               <paper-button dialog-confirm>Close</paper-button>
-             </div>
-          </form>
-          <iron-request id="formSubmitXhr"></iron-request>
+        <paper-dialog-scrollable>
+          <div class="card-content">
+            <form is="iron-form" method="post" action="/advert/create" id="createItemForm">
+              <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
+              <paper-input id="title" label="Title" name="title" value="{{advert.title}}"
+                           autofocus required char-counter maxlength="30"></paper-input>
+                           <br />
+               <paper-dropdown-menu label="Typ inzerátu" name="advertType" toggles>
+                <paper-listbox class="dropdown-content" selected="1">
+                  <paper-item value="sell">sell</paper-item>
+                  <paper-item value="buy">buy</paper-item>
+                  <paper-item value="give">darujem</paper-item>
+                </paper-listbox>
+              </paper-dropdown-menu>
+              <br />
+              <paper-dropdown-menu label="Kategória" name="advertCategory">
+                 <paper-listbox class="dropdown-content" selected="1">
+                   <paper-item value="complete">complete</paper-item>
+                   <paper-item value="sail">sail</paper-item>
+                   <paper-item value="board">board</paper-item>
+                   <paper-item value="clothes">clothes</paper-item>
+                   <paper-item value="other">other</paper-item>
+                 </paper-listbox>
+               </paper-dropdown-menu>
+               <br />
+               <paper-textarea label="Popis" id="advertBody" name="advertBody" value="{{advert.advertBody}}" required></paper-textarea>
+               <br />
+               <paper-input id="price" name="price" allowed-pattern="[0-9]" label="Price" value="{{advert.price}}" autofocus>
+                  <div suffix>Kc</div>
+               </paper-input>
+               <h3>Upload images</h3>
+               <file-upload id="file-upload" droppable="true" method="POST" raised="true" file-data-name="image" accept="image/*" additional="{{token}}" target="/advert/upload" multi="true"></file-upload>
+               <div class="buttons">
+                 <paper-button id="submit-btn" raised autofocus>Odeslat</paper-button>
+                 <paper-button dialog-confirm>Close</paper-button>
+               </div>
+            </form>
+            <iron-request id="formSubmitXhr"></iron-request>
 
-        </div>
+          </div>
+        </paper-dialog-scrollable>
+
 
       </paper-dialog>
 
@@ -61,19 +65,36 @@
         title: {
           type: String,
           value: 'Add item'
+        },
+        files: {
+          type: Array,
+          value: function() {
+            return [];
+          }
         }
       },
       listeners: {
-        'submit-btn.click': 'paperBtnSubmitListener'
+        'submit-btn.click': 'paperBtnSubmitListener',
+        'file-upload.success' : 'fileUploadSuccessListener'
       },
       paperBtnSubmitListener: function(e){
         console.log('Submit pressed!');
-        form = this.$.createItemForm;
+        var formData = new FormData(this.$.createItemForm);
         this.$.formSubmitXhr.send({
           'url' : '/advert/create',
           'method' : 'post',
-          'body' : JSON.stringify(form.serialize())
+          'body' : formData,
         });
+      },
+      fileUploadSuccessListener: function(e, data){
+        var self = this;
+        console.log(data);
+        if (data && data.xhr && data.xhr.response){
+          var response = JSON.parse(data.xhr.response);
+          console.log(response);
+          self.files.push(response.public_id);
+        }
+
       }
     });
   </script>

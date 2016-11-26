@@ -38,9 +38,9 @@ module.exports.bootstrap = function(cb) {
     cloudinary = require('cloudinary');
 
     cloudinary.config({
-      cloud_name: 'sample',
-      api_key: '874837483274837',
-      api_secret: 'a676b67565c6767a6767d6767f676fe1'
+      cloud_name: 'dk2nkldll',
+      api_key: '826299123276653',
+      api_secret: '3QCXwMPJvAUlJ9hV9d1RhWVoiHk'
     });
 
   cb();

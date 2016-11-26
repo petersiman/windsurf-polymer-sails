@@ -32,15 +32,13 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
+  'get /': {
     view: 'index'
   },
-  '/about':{
-      view: 'about'
-  },
-  '/contact': {
-      view: 'contact'
-  },
+  'get /advert/list': 'AdvertController.list',
+  'post /advert/upload' : 'AdvertController.upload',
+  'post /advert/create' : 'AdvertController.create',
+
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
@@ -51,7 +49,7 @@ module.exports.routes = {
   'get /auth/:provider': 'AuthController.provider',
   'get /auth/:provider/callback': 'AuthController.callback',
 
-  'put /advert/upload' : 'AdvertController.upload'
+
 
   /***************************************************************************
   *                                                                          *

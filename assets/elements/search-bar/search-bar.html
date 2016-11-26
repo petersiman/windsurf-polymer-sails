@@ -121,11 +121,25 @@
 			<iron-list items="[[data]]" as="item" grid>
 				<template>
 					<div class="photoContainer">
-            <div class="photoContent" tabindex$="[[tabIndex]]">
-              <iron-image sizing="cover"
-                  src="[[item.image]]">
-              </iron-image>
-              <div class="detail">[[item.title]]</div>
+            <div class="photoContent" tabindex="[[tabIndex]]">
+							<template is="dom-repeat" items="{{item.images}}" as="image">
+								<template is="dom-if" if="{{_continueLoop(index)}}" indexAs="index">
+			            <iron-image sizing="cover"
+			                src="http://res.cloudinary.com/dk2nkldll/h_300/[[image]]">
+
+			            </iron-image>
+								</template>
+							</template>
+              <div class="detail">
+								<span>[[item.title]]</span>
+								<br />
+								<span>[[item.price]]</span>
+								<br />
+								<p>
+									[[item.advertBody]]
+								</p>
+							</div>
+
             </div>
           </div>
 				</template>
@@ -188,6 +202,12 @@
 							]
 						}
 					]
+				},
+				_continueLoop: function(index){
+					if (index > 0) {
+						return false;
+					}
+					return true;
 				}
 
       });

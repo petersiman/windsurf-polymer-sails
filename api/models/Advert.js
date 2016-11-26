@@ -24,7 +24,7 @@ module.exports = {
         enum: ['buy', 'sell', 'give']
     },
     advertCategory: {
-        type: 'string', 
+        type: 'string',
         defaultsTo: 'complete',
         enum: ['complete', 'sail', 'board', 'clothes', 'other']
     },
@@ -36,8 +36,7 @@ module.exports = {
         model: 'user'
     },
     images: {
-        collection: 'image',
-        via: 'advert'
+        type: 'array',
     },
     advertBody: {
         type: 'text',
@@ -51,4 +50,3 @@ module.exports = {
     }
     }
 };
-
