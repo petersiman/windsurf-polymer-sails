@@ -115,6 +115,7 @@
 				loadData : function() {
 					// Simulate a 100ms data load
 					this.loading = true;
+					this.adverts = []
 					if (this.$.advertAjax.lastRequest) {
             this.$.advertAjax.lastRequest.abort();
           }
@@ -125,6 +126,7 @@
 					this.loading = false;
 					if (e && e.detail && e.detail.response){
 						e.detail.response.forEach(function(item){
+							this.hasItems = true;
 							this.push('adverts', item);
 						}, this);
 					}
