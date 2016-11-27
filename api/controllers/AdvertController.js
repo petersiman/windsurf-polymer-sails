@@ -11,36 +11,9 @@ module.exports = {
     new: function(req,res){
         res.view();
     },
-    show: function (req, res) {
-		sails.log("Looking for adverts ...");
-        var filter = {};
-        if (req.param('advertType')){
-            sails.log('Filtering...');
-            sails.log('advert type: ' + req.param('advertType'));
-            filter.advertType = req.param('advertType');
-        }
-
-        if ( req.param('advertCategory')){
-            sails.log('advert category: ' + req.param('advertCategory'));
-            filter.advertCategory = req.param('advertCategory');
-        }
-        if (req.param('q')){
-            sails.log('seaching for query: ' + req.param('q'));
-            filter.or = [{'advertTitle' : {'contains' : req.param('q')}}, {'advertBody' : {'contains' : req.param('q')}}]
-        }
-        filter.state = 'new';
-        sails.log("Got filter: " + JSON.stringify(filter));
-        Advert.find(filter)
-        .populate('images')
-        .sort('createdAt desc')
-        .limit(10)
-        .exec(function(err, adverts) {
-          sails.log(JSON.stringify(adverts));
-          res.view({
-            adverts: adverts,
-            filter: filter
-          });
-        });
+    getById: function(req, res){
+      sails.log.debug(req.param('advertId'));
+      //TODO get by id
     },
     list: function (req, res) {
 		sails.log("Looking for adverts ...");

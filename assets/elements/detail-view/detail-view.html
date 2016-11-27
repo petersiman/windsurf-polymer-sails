@@ -1,0 +1,38 @@
+<!doctype html>
+<dom-module id="detail-view">
+		<template>
+      <iron-ajax id="advertAjaxRequest" method="get" url="[[advertUrl]]" on-response="handleResponse" ></iron-ajax>
+      <paper-dialog id="dialog">
+        <h2>[[title]]</h2>
+        <p>[[advertBody]]</p>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Close</paper-button>
+        </div>
+      </paper-dialog>
+    </template>
+    <script>
+      Polymer({
+        is: "detail-view",
+        properties: {
+          advertUrl: {
+            type: String,
+            value: ''
+          },
+          advert: {
+            type: Object,
+            value: {}
+          }
+        },
+        handleResponse: function(e){
+          if (e && e.detail && e.detail.response){
+            console.log(e.detail.response);
+            this.advert = e.detail.response;
+          }
+        },
+        openDialog: function(advertId){
+          this.$.advertAjaxRequest.generateRequest();
+          this.$.dialog.open();
+        }
+      });
+    </script>
+</dom-module>

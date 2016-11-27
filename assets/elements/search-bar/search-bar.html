@@ -63,11 +63,11 @@
 		 }
 
 	 </style>
-			<iron-list items="[[adverts]]" as="item" grid>
+			<iron-list items="[[adverts]]" as="advert" grid>
 				<template>
-					<div class="photoContainer">
+					<div class="photoContainer" on-click="openDetail">
             <div class="photoContent" tabindex$="[[tabIndex]]">
-							<template is="dom-repeat" items="{{item.images}}" as="image">
+							<template is="dom-repeat" items="{{advert.images}}" as="image">
 								<template is="dom-if" if="{{_continueLoop(index)}}" indexAs="index">
 			            <iron-image sizing="cover"
 			                src="http://res.cloudinary.com/dk2nkldll/h_300/[[image]]">
@@ -76,13 +76,9 @@
 								</template>
 							</template>
               <div class="detail">
-								<span>[[item.title]]</span>
+								<span>[[advert.title]]</span>
 								<br />
-								<span>[[item.price]]</span>
-								<br />
-								<p>
-									[[item.advertBody]]
-								</p>
+								<span>[[advert.price]]&nbsp;Kc</span>
 							</div>
 
             </div>
@@ -90,17 +86,24 @@
 
 				</template>
 			</iron-list>
-
+			<detail-view id="detailView"></detail-view>
+			<div class="loadingIndicator" hidden$="[[!loading]]">
+			 <paper-spinner active$="[[loading]]"></paper-spinner>
+		 </div>
 		</template>
 
 		<script>
       Polymer({
         is: "search-bar",
-				open : function() {
-					this.$.dialog.open();
+				openDetail: function(e){
+					var model = e.model;
+					this.$.detailView.openDialog('/advert' + e.model.advert.id);
 				},
-
 				properties : {
+					loading: {
+						type: Boolean,
+						value: false
+					},
 					adverts: {
 					 type: Array,
 					 value: []

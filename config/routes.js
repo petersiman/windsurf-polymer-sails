@@ -38,6 +38,7 @@ module.exports.routes = {
   'get /advert/list': 'AdvertController.list',
   'post /advert/upload' : 'AdvertController.upload',
   'post /advert/create' : 'AdvertController.create',
+  'get /advert/:advertId' : 'AdvertController.getById',
 
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',

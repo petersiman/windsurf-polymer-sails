@@ -5,11 +5,17 @@
   <link rel="import" href="../../elements/login-form/login-form.html">
   <link rel="import" href="../../elements/add-item-form/add-item-form.html">
   <link rel="import" href="../../elements/search-bar/search-bar.html">
+  <link rel="import" href="../../elements/detail-view/detail-view.html">
 
   <template>
 
+    <style>
+      paper-search-bar {
+        color: #000;
+      }
+    </style>
 
-    <iron-ajax id="advertAjax" url="/advert/list" on-response="handleResponse"></iron-ajax>
+    <iron-ajax id="advertAjax" url="/advert/list" on-response="handleResponse" auto></iron-ajax>
 
 
 
@@ -17,7 +23,7 @@
           <paper-toolbar class="medium">
             <paper-icon-button icon="menu"></paper-icon-button>
             <span class="title">Windsurfing portal</span>
-            <paper-search-bar placeholder="Enter search term" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
+            <paper-search-bar placeholder="Search" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
             <paper-icon-button icon="add" data-dialog="add-item-modal" id="add-item-button" alt="Add new"></paper-icon-button>
             <paper-icon-button icon="account-circle" data-dialog="login-modal" title="Login" id="login-button" alt="Login"></paper-icon-button>
           </paper-toolbar>
@@ -27,7 +33,7 @@
           <login-form></login-form>
 
           <add-item-form></add-item-form>
-        <search-bar adverts="[[adverts]]"></search-bar>
+          <search-bar adverts="[[adverts]]" loading="[[loading]]"></search-bar>
 
       </paper-header-panel>
   </template>
@@ -87,6 +93,10 @@
   			return nrSelectedFilters;
   		},
       properties: {
+        loading: {
+          type: Boolean,
+          value: false
+        },
         adverts: {
          type: Array,
          value: []
