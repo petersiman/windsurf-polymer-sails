@@ -67,10 +67,10 @@
 				<template>
 					<div class="photoContainer" on-click="openDetail">
             <div class="photoContent" tabindex$="[[tabIndex]]">
-							<template is="dom-repeat" items="{{advert.images}}" as="image">
+							<template is="dom-repeat" items="{{advert.images}}" as="imageId">
 								<template is="dom-if" if="{{_continueLoop(index)}}" indexAs="index">
 			            <iron-image sizing="cover"
-			                src="http://res.cloudinary.com/dk2nkldll/h_300/[[image]]">
+			                src="http://res.cloudinary.com/dk2nkldll/h_300/[[imageId]]">
 
 			            </iron-image>
 								</template>
@@ -97,7 +97,7 @@
         is: "search-bar",
 				openDetail: function(e){
 					var model = e.model;
-					this.$.detailView.openDialog(e.model.advert.id);
+					this.$.detailView.openDialog(e.model.advert);
 				},
 				properties : {
 					loading: {

@@ -1,0 +1,21 @@
+<!doctype html>
+<dom-module id="contact-form">
+  <template>
+    <form is="iron-form" method="post" action="/contact/send" id="contactForm">
+      <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
+      <paper-input id="email" label="Email" name="email" value=""
+                    required email></paper-input>
+       <br />
+       <paper-textarea label="Text" id="contactBody" name="contactBody" value="" required></paper-textarea>
+       <br />
+       <div class="buttons">
+         <paper-button id="submit-btn" raised autofocus>Odeslat</paper-button>
+       </div>
+    </form>
+  </template>
+  <script>
+    Polymer({
+      is: "contact-form"
+    });
+  </script>
+</dom-module>

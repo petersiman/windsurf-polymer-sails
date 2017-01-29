@@ -54,6 +54,7 @@
             console.log("Error: " + data.err);
         }
         console.log(data);
+        this.$.login-modal.close();
       },
       errorCallback(data){
         console.log('Error');

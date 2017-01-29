@@ -80,11 +80,13 @@
       paperBtnSubmitListener: function(e){
         console.log('Submit pressed!');
         var formData = new FormData(this.$.createItemForm);
+        formData.append('images', this.files);
         this.$.formSubmitXhr.send({
           'url' : '/advert/create',
           'method' : 'post',
           'body' : formData,
         });
+        this.$.add-item-modal.close();
       },
       fileUploadSuccessListener: function(e, data){
         var self = this;

@@ -19,6 +19,7 @@ module.exports = {
         if (err){
           sails.log.error(err, "Error while retrieving advert with ID: " + advertId)
         }
+        sails.log.debug('Got advert: ' + JSON.stringify(advert));
         res.send(advert);
       });
     },
@@ -48,6 +49,10 @@ module.exports = {
         .sort('createdAt desc')
         .limit(10)
         .exec(function(err, adverts) {
+          if (err){
+            sails.log.error(err, 'Error while getting adverts with filter '
+                + filter);
+          }
           sails.log(JSON.stringify(adverts));
           res.send(adverts);
         });
@@ -82,13 +87,25 @@ module.exports = {
         var result = {
           'success' : false
         };
-        var advertToBe = req.params.all();
+        var advertToBe = {
+          'images' : [],
+          'advertBody' : req.param('advertBody'),
+          'title' : req.param('title'),
+          'advertType' : req.param('advertType'),
+          'advertCategory' : req.param('advertCategory'),
+          'price' : req.param('price'),
+          'creator' : req.user
+        }
         sails.log('Request params: ' + JSON.stringify(req.params.all()));
-        advertToBe.creator = req.user;
         if (req.param('images')){
-          req.param('images').forEach(function(item){
+            var images = req.param('images').split(',');
+            images.forEach(function(item){
               advertToBe.images.push(item);
-          });
+            });
+        } else {
+          sails.log.error('No images where uploded. Provide at least 1 image');
+          result.err = 'Provide at lease one image.';
+          res.send(result);
         }
         Advert.create(advertToBe,function advertCreated(err, advert){
             sails.log('Creating new advert ...');
