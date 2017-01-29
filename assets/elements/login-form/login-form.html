@@ -1,10 +1,12 @@
 <dom-module id="login-form">
   <link rel="import" type="css" href="login-form.css">
   <template>
+    <iron-ajax id="csrfTokenAjaxRequest" url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
     <paper-dialog id="login-modal" modal>
       <h2>Login</h2>
       <div class="card-content">
-        <form is="iron-form" method="get" action="/" id="loginForm">
+        <form is="iron-form" method="post" action="/auth/local" id="loginForm">
+          <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
           <paper-input id="username" name="username" label="Username" value=""
                        autofocus></paper-input>
           <paper-input id="password" name="password" label="Password" type="password" value=""></paper-input>
@@ -25,6 +27,9 @@
                  on-error="errorCallback">
       </iron-request>
     </paper-dialog>
+    <paper-dialog id="successModal">
+      You have been logged in successfully.
+    </paper-dialog>
 
   </template>
   <script>
@@ -39,8 +44,15 @@
           'method': 'post',
           'body' : JSON.stringify(loginForm.serialize())
         });
+        this.$.csrfTokenAjaxRequest.generateRequest();
       },
       loginCallback: function(data){
+        var data = JSON.parse(data);
+        if (data.result === 'success'){
+          this.$.successModal.open()
+        } else if (data.err) {
+            console.log("Error: " + data.err);
+        }
         console.log(data);
       },
       errorCallback(data){

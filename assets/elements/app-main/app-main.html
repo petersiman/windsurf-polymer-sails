@@ -25,13 +25,19 @@
             <span class="title">Windsurfing portal</span>
             <paper-search-bar placeholder="Search" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
             <paper-icon-button icon="add" data-dialog="add-item-modal" id="add-item-button" alt="Add new"></paper-icon-button>
-            <paper-icon-button icon="account-circle" data-dialog="login-modal" title="Login" id="login-button" alt="Login"></paper-icon-button>
+            <paper-menu-button>
+              <paper-icon-button icon="account-circle" class="dropdown-trigger"></paper-icon-button>
+              <paper-menu class="dropdown-content">
+                <paper-item hidden$="[[loggedIn]]" id="login-button" data-dialog="login-modal">Login</paper-item>
+                <paper-item hidden$="[[!loggedIn]]">My account</paper-idem>
+              </paper-menu>
+            </paper-menu-button>
           </paper-toolbar>
           <paper-filter-dialog id="filterDialog" filters="[[filters]]" selected-filters="{{selectedFilters}}" ></paper-filter-dialog>
 
 
           <login-form></login-form>
-
+          <my-account-modal></my-account-modal>
           <add-item-form></add-item-form>
           <search-bar adverts="[[adverts]]" loading="[[loading]]"></search-bar>
 
@@ -93,6 +99,10 @@
   			return nrSelectedFilters;
   		},
       properties: {
+        loggedIn : {
+          type: Boolean,
+          value: false
+        },
         loading: {
           type: Boolean,
           value: false

@@ -12,8 +12,15 @@ module.exports = {
         res.view();
     },
     getById: function(req, res){
-      sails.log.debug(req.param('advertId'));
-      //TODO get by id
+      var advertId = req.param('advertId');
+      sails.log.debug('Getting advert by ID: ' + advertId);
+      Advert.findOne({"id" : advertId})
+      .exec(function(err, advert){
+        if (err){
+          sails.log.error(err, "Error while retrieving advert with ID: " + advertId)
+        }
+        res.send(advert);
+      });
     },
     list: function (req, res) {
 		sails.log("Looking for adverts ...");

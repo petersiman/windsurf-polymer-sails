@@ -151,7 +151,10 @@ var AuthController = {
           res.redirect('back');
           break;
         default:
-          res.redirect('/login');
+          res.send({
+            "result" : "error",
+            "err" : flashError
+          });
       }
     }
 
@@ -170,7 +173,8 @@ var AuthController = {
 
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
-        res.redirect('/user/show/' + user.id);
+        // res.redirect('/user/show/' + user.id);
+        res.send({"result" : "logged-in"});
       });
     });
   },

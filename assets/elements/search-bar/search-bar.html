@@ -97,7 +97,7 @@
         is: "search-bar",
 				openDetail: function(e){
 					var model = e.model;
-					this.$.detailView.openDialog('/advert' + e.model.advert.id);
+					this.$.detailView.openDialog(e.model.advert.id);
 				},
 				properties : {
 					loading: {

@@ -37,8 +37,7 @@ module.exports.policies = {
     'AdvertController': {
         '*' : ['passport', 'sessionAuth'],
         'list' : ['passport'],
-        'create' : ['passport'], //TODO change in prod
-        'upload' : ['passport'] //TODO change in prod
+        'getById' : ['passport']
     },
     'ImageController' : {
         '*' : ['passport']

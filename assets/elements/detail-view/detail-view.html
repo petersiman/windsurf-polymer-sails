@@ -2,9 +2,9 @@
 <dom-module id="detail-view">
 		<template>
       <iron-ajax id="advertAjaxRequest" method="get" url="[[advertUrl]]" on-response="handleResponse" ></iron-ajax>
-      <paper-dialog id="dialog">
-        <h2>[[title]]</h2>
-        <p>[[advertBody]]</p>
+      <paper-dialog id="detailDialog">
+        <h2>[[advert.title]]</h2>
+        <p>[[advert.advertBody]]</p>
         <div class="buttons">
           <paper-button dialog-dismiss>Close</paper-button>
         </div>
@@ -30,8 +30,9 @@
           }
         },
         openDialog: function(advertId){
+					this.$.advertAjaxRequest.url = '/advert/' + advertId;
           this.$.advertAjaxRequest.generateRequest();
-          this.$.dialog.open();
+          this.$.detailDialog.open();
         }
       });
     </script>
