@@ -7,10 +7,10 @@
         <form is="iron-form" method="post" action="/auth/local/register" id="registrationForm">
           <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
           <paper-input id="username" name="username" label="Username" value=""
-                       autofocus></paper-input>
-          <paper-input id="email" name="email" label="Email" value=""></paper-input>
-          <paper-input id="password" name="password" label="Password" type="password" value=""></paper-input>
-          <paper-input id="password2" name="password2" label="Repeat password" type="password" value=""></paper-input>
+                       autofocus required auto-validate error-message="Valid username is required!"></paper-input>
+          <paper-input id="email" name="email" auto-validate label="Email" value="" required type="email" error-message="Enter email address!"></paper-input>
+          <paper-input id="password" name="password" label="Password" auto-validate type="password" value="" required></paper-input>
+          <paper-input id="password2" name="password2" label="Repeat password" auto-validate type="password" value="" required></paper-input>
         </form>
 
       </div>
@@ -58,7 +58,7 @@
             console.log("Error: " + data.err);
         }
         console.log(data);
-        this.$.login-modal.close();
+        this.$.registration-modal.close();
       },
       errorCallback : function(data){
         console.log('Error');

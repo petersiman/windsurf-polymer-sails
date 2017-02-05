@@ -91,9 +91,50 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  register: function (req, res) {
-    res.view({
-      errors: req.flash('error')
+  register: function (req, res, tryAgain) {
+    var form = req.body;
+
+    if (form.password !== form.password2){
+      res.send({
+        "result" : "error",
+        "msg" : "Passport.Password.Mismatch"
+      });
+    }
+
+    var userToBe = {
+        username : form.username,
+        email : form.email,
+        passports : [{protocol : 'local', password : form.passport}],
+        role : 'user'
+    };
+
+    User.create(userToBe, function userCreated(err, user){
+        if (err) {
+            sails.log.error(err, "Error creating user");
+            req.session.flash = {
+                "err": err
+            }
+            return res.send({
+              "result" : "error",
+              "err" : err
+            });
+        }
+
+        sails.log.debug('User created successfully: ' + JSON.stringify(user));
+        req.login(user, function (err) {
+          if (err) {
+            sails.log.error(err, "Error logging in user.");
+            res.send({
+              "result" : "error",
+              "err" : err
+            });
+          }
+
+          // Mark the session as authenticated to work with default Sails sessionAuth.js policy
+          req.session.authenticated = true
+
+          res.send({"result" : "logged-in"});
+        });
     });
   },
 
@@ -107,10 +148,11 @@ var AuthController = {
     passport.endpoint(req, res);
   },
 
+
   /**
    * Create a authentication callback endpoint
    *
-   * This endpoint handles everything related to creating and verifying Pass-
+   * This endpoint handles everything related to creating and Uing Pass-
    * ports and users, both locally and from third-aprty providers.
    *
    * Passport exposes a login() function on req (also aliased as logIn()) that
@@ -145,7 +187,7 @@ var AuthController = {
 
       switch (action) {
         case 'register':
-          res.redirect('/register');
+          AuthController.register(req, res, tryAgain);
           break;
         case 'disconnect':
           res.redirect('back');
