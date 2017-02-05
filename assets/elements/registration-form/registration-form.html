@@ -1,0 +1,69 @@
+<dom-module id="registration-form">
+  <template>
+    <iron-ajax id="csrfTokenAjaxRequest" url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
+    <paper-dialog id="registration-modal" modal>
+      <h2>Registration</h2>
+      <div class="card-content">
+        <form is="iron-form" method="post" action="/auth/local/register" id="registrationForm">
+          <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
+          <paper-input id="username" name="username" label="Username" value=""
+                       autofocus></paper-input>
+          <paper-input id="email" name="email" label="Email" value=""></paper-input>
+          <paper-input id="password" name="password" label="Password" type="password" value=""></paper-input>
+          <paper-input id="password2" name="password2" label="Repeat password" type="password" value=""></paper-input>
+        </form>
+
+      </div>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
+        <paper-button on-click="register">Register</paper-button>
+      </div>
+      <paper-toast id="toast" text=""></paper-toast>
+      <iron-a11y-keys target="{{dialog}}" keys="enter" on-keys-pressed="register"></iron-a11y-keys>
+      <iron-request id="registerXhrRequest"
+                 on-response="loginCallback"
+                 on-error="errorCallback">
+      </iron-request>
+    </paper-dialog>
+    <paper-dialog id="successModal">
+      You have been registered in successfully.
+    </paper-dialog>
+
+  </template>
+  <script>
+    Polymer({
+      is: "registration-form",
+      properties: {
+      },
+      register: function(){
+        var registerXhr = this.$.registerXhrRequest;
+        console.log('Register pressed');
+        var registrationForm = this.$.registrationForm;
+        registerXhr.send({
+          'url': '/auth/local/register',
+          'method': 'post',
+          'body' : JSON.stringify(registrationForm.serialize())
+        });
+        this.$.csrfTokenAjaxRequest.generateRequest();
+      },
+      loginCallback: function(data){
+        var data = JSON.parse(data);
+        if (data.result === 'success'){
+          this.$.successModal.open();
+          var self = this;
+          window.setTimeout(1000, function(){
+            self.$.successModal.close();
+          })
+        } else if (data.err) {
+            console.log("Error: " + data.err);
+        }
+        console.log(data);
+        this.$.login-modal.close();
+      },
+      errorCallback : function(data){
+        console.log('Error');
+        console.log(data);
+      }
+    });
+  </script>
+</dom-module>

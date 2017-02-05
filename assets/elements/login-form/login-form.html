@@ -20,6 +20,16 @@
         <paper-button dialog-confirm autofocus>Close</paper-button>
         <paper-button on-click="login">Login</paper-button>
       </div>
+      <div class="login-providers" hidden$="[[providers]]">
+          <h3>Or login through</h3>
+          <iron-request id="providersAjax"></iron-request>
+          <iron-list items="[[providers]]" as="provider">
+            <template>
+              <a href="{{provider.slug}}" role="button">{{provider.name}}</a>
+            </template>
+          </iron-list>
+
+      </div>
       <paper-toast id="toast" text=""></paper-toast>
       <iron-a11y-keys target="{{dialog}}" keys="enter" on-keys-pressed="login"></iron-a11y-keys>
       <iron-request id="loginXhrRequest"
@@ -35,6 +45,16 @@
   <script>
     Polymer({
       is: "login-form",
+      ready: function(){
+        this._getProviders();
+      },
+      properties: {
+        providers : {
+          type: Array,
+          notify: true,
+          value: []
+        }
+      },
       login: function(){
         var loginReq = this.$.loginXhrRequest;
         console.log('Login pressed');
@@ -49,16 +69,38 @@
       loginCallback: function(data){
         var data = JSON.parse(data);
         if (data.result === 'success'){
-          this.$.successModal.open()
+          this.$.successModal.open();
+          var self = this;
+          window.setTimeout(1000, function(){
+            self.$.successModal.close();
+          })
         } else if (data.err) {
             console.log("Error: " + data.err);
         }
         console.log(data);
         this.$.login-modal.close();
       },
-      errorCallback(data){
+      errorCallback : function(data){
         console.log('Error');
         console.log(data);
+      },
+      _getProviders : function(){
+        var promise = this.$.providersAjax.send({
+          "url" : "/providers"
+        });
+        var self = this;
+        promise.then(function(resp) {
+          var data = JSON.parse(resp.parseResponse());
+          if (data.providers){
+            Object.keys(data.providers).forEach(function(key, index) {
+                self.providers.push(data.providers[key]);
+                console.log("Providers count: " + self.providers.length);
+            });
+            console.log(self.providers);
+          }
+        }).catch(function(reason){
+          console.log("Providers request failed: " + reason);
+        });
       }
     });
   </script>

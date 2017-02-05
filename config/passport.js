@@ -46,16 +46,16 @@ module.exports.passport = {
     // }
   // },
 
-  // facebook: {
-    // name: 'Facebook',
-    // protocol: 'oauth2',
-    // strategy: require('passport-facebook').Strategy,
-    // options: {
-      // clientID: 'your-client-id',
-      // clientSecret: 'your-client-secret',
-      // scope: ['email'] /* email is necessary for login behavior */
-    // }
-  // },
+  facebook: {
+    name: 'Facebook',
+    protocol: 'oauth2',
+    strategy: require('passport-facebook').Strategy,
+    options: {
+      clientID: 'your-client-id',
+      clientSecret: 'your-client-secret',
+      scope: ['email'] /* email is necessary for login behavior */
+    }
+  }
 
 
 

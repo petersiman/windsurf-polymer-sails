@@ -30,7 +30,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  login: function (req, res) {
+  providers: function (req, res) {
     var strategies = sails.config.passport
       , providers  = {};
 
@@ -47,7 +47,7 @@ var AuthController = {
     });
 
     // Render the `auth/login.ext` view
-    res.view({
+    res.send({
       providers : providers
     , errors    : req.flash('error')
     });
