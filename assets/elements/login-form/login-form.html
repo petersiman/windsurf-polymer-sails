@@ -2,7 +2,7 @@
   <link rel="import" type="css" href="login-form.css">
   <template>
     <iron-ajax id="csrfTokenAjaxRequest" url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
-    <paper-dialog id="login-modal" modal>
+    <paper-dialog id="login-modal" dynamic-align="true" modal>
       <h2>Login</h2>
       <div class="card-content">
         <form is="iron-form" method="post" action="/auth/local" id="loginForm">

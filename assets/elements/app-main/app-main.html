@@ -16,7 +16,7 @@
       }
     </style>
 
-    <iron-ajax id="advertAjax" url="/advert/list" on-response="handleResponse" auto></iron-ajax>
+    <iron-ajax id="advertAjax" url="/advert/list" params="[[searchParams]]" on-response="handleResponse"></iron-ajax>
 
 
 
@@ -24,11 +24,12 @@
           <paper-toolbar class="medium">
             <paper-icon-button icon="menu"></paper-icon-button>
             <span class="title">Windsurfing portal</span>
-            <paper-search-bar placeholder="Search" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
+            <paper-search-bar id="searchBar" placeholder="Search" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
             <paper-icon-button icon="add" data-dialog="add-item-modal" id="add-item-button" alt="Add new"></paper-icon-button>
-            <paper-menu-button>
-              <paper-icon-button icon="account-circle" class="dropdown-trigger"></paper-icon-button>
-              <paper-menu class="dropdown-content">
+            <paper-menu-button dynamic-align="true">
+              <paper-icon-button icon="account-circle" class="dropdown-trigger">
+              </paper-icon-button>
+              <paper-listbox class="dropdown-content">
                 <paper-item
                   hidden$="[[loggedIn]]"
                   id="login-button"
@@ -47,9 +48,9 @@
                   id="logout-button"
                   on-click="logout">
                   Log out
-                </paper-idem>
+                </paper-item>
 
-              </paper-menu>
+              </paper-listbox>
             </paper-menu-button>
           </paper-toolbar>
           <paper-filter-dialog id="filterDialog" filters="[[filters]]" selected-filters="{{selectedFilters}}" ></paper-filter-dialog>
@@ -87,7 +88,12 @@
       },
       loadData : function() {
         // Simulate a 100ms data load
+        console.log("Loading data")
         this.loading = true;
+        this.searchParams = {
+          "q" : this.$.searchBar.query,
+          "filters" : JSON.stringify(this.selectedFilters)
+        };
         this.adverts = []
         if (this.$.advertAjax.lastRequest) {
           this.$.advertAjax.lastRequest.abort();
@@ -98,8 +104,9 @@
       handleResponse: function(e){
         this.loading = false;
         if (e && e.detail && e.detail.response){
+          console.table(e.detail.response);
           e.detail.response.forEach(function(item){
-            this.hasItems = true;
+            // this.hasItems = true;
             this.push('adverts', item);
           }, this);
         }
@@ -132,11 +139,15 @@
          type: Array,
          value: []
        },
+       searchParams : {
+         type : Object,
+         value : {}
+       },
         selectedFilters : {
           type: Object,
           value: {
-            advertType: [ "buy", "give" ],
-            advertCategory: [ "sail" ]
+            "advertType" : ["buy"],
+            "price" : ["0-1000"]
           }
         },
         filters : {
@@ -171,6 +182,28 @@
                 {
                   id: "board",
                   name: "Board"
+                }
+              ]
+            },
+            {
+              id: "price",
+              name: "Price",
+              values: [
+                {
+                  id: "0-1000",
+                  name: "0 - 1000"
+                },
+                {
+                  id: "1000-5000",
+                  name: "1000 - 5000",
+                },
+                {
+                  id: "5000-10000",
+                  name: "5000 - 10000"
+                },
+                {
+                  id: "10000-",
+                  name: "10000+"
                 }
               ]
             }

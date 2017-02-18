@@ -24,27 +24,52 @@ module.exports = {
       });
     },
     list: function (req, res) {
-		sails.log("Looking for adverts ...");
+		    sails.log.debug("Looking for adverts ...");
         if (cloudinary){
           sails.log.debug('Cloudinary ready');
         }
-        var filter = {};
-        if (req.param('advertType')){
-            sails.log('Filtering...');
-            sails.log('advert type: ' + req.param('advertType'));
-            filter.advertType = req.param('advertType');
-        }
 
-        if ( req.param('advertCategory')){
-            sails.log('advert category: ' + req.param('advertCategory'));
-            filter.advertCategory = req.param('advertCategory');
+        var filter = {};
+        var filtersFromReq = req.param('filters')
+        sails.log.debug("Filters in request: %s", filtersFromReq);
+        if (filtersFromReq){
+          filtersFromReq = JSON.parse(filtersFromReq);
+          sails.log.debug('Filtering  ...');
+          if (filtersFromReq.advertType){
+            sails.log.debug('Advert type: %s', filtersFromReq.advertType);
+            filter.advertType = filtersFromReq.advertType;
+          }
+          if (filtersFromReq.advertCategory) {
+            sails.log.debug('Advert category: %s', filtersFromReq.advertCategory);
+            filter.advertCategory = filtersFromReq.advertCategory;
+          }
+
+          if (filtersFromReq.price && filtersFromReq.price.length > 0){
+            sails.log.debug("Advert price: %s", filtersFromReq.price);
+            filter.price = {
+              "and" : []
+            };
+            filtersFromReq.price.forEach(function(item){
+              var prices = item.split("-");
+              sails.log.debug("Price range is %j", prices);
+              filter.price.and.push({"gte" : prices[0]});
+              sails.log.trace("Pushed lower price boundary %d", prices[0]);
+              if (prices.length > 1) {
+                  filter.price.and.push({"lte" : prices[1]});
+                  sails.log.trace("Pushed upper price boundary %d", prices[1]);
+              }
+            });
+            sails.log.trace("Advert price filter: %j", filter.price);
+          }
+
         }
         if (req.param('q')){
-            sails.log('seaching for query: ' + req.param('q'));
+            sails.log.debug('Query: %s', req.param('q'));
             filter.or = [{'advertTitle' : {'contains' : req.param('q')}}, {'advertBody' : {'contains' : req.param('q')}}]
         }
         filter.state = 'new';
-        sails.log("Got filter: " + JSON.stringify(filter));
+
+        sails.log.debug("Got final filter: %j", filter);
         Advert.find(filter)
         .sort('createdAt desc')
         .limit(10)
@@ -57,6 +82,7 @@ module.exports = {
           res.send(adverts);
         });
     },
+
     sold: function(req, res, next){
       Advert.findOne(req.param('id')).exec(function(err, advert){
         var result = {};
