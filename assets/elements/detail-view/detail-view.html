@@ -1,23 +1,33 @@
 <!doctype html>
 <dom-module id="detail-view">
 		<link rel="import" href="../../elements/contact-form/contact-form.html">
+		<style>
+			.image-container {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+			}
+
+			.image-container iron-image {
+			}
+		</style>
 		<template>
 			<style is="detail-view-style">
 			</style>
       <paper-dialog id="detailDialog">
         <h2>[[advert.title]]</h2>
-				<div>
-					<template is="dom-repeat" items="{{advert.images}}" as="image" indexAs="index">
-							<iron-image>
-									src="http://res.cloudinary.com/dk2nkldll/h_300/[[image]]">
+				<div class="image-container">
+					<template is="dom-repeat" items="[[advert.images]]" as="image" indexAs="index">
+							<iron-image	src="http://res.cloudinary.com/dk2nkldll/h_300/[[image]]">
 							</iron-image>
 					</template>
 				</div>
 
-				<p>Typ: [[advert.advertType]]</p>
-				<p>Cateogory: [[advert.advertCategory]]</p>
+				<p><span>Typ:</span> [[advert.advertType]]</p>
+				<p><span>Cateogory:</span> [[advert.advertCategory]]</p>
+				<h3>Popis:</h3>
         <p>[[advert.advertBody]]</p>
-				<p>Price: [[advert.price]]&nbsp;Kc</p>
+				<p><span>Price:</span> [[advert.price]]&nbsp;Kc</p>
 				<paper-button on-click="_toggleContactForm">Contact...</paper-button>
 				<iron-collapse id="contactFormCollapse">
 						<contact-form></contact-form>

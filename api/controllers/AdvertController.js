@@ -53,17 +53,17 @@ module.exports = {
               var prices = item.split("-");
               sails.log.debug("Price range is %j", prices);
               filter.price.and.push({"gte" : prices[0]});
-              sails.log.trace("Pushed lower price boundary %d", prices[0]);
+              sails.log.verbose("Pushed lower price boundary %d", prices[0]);
               if (prices.length > 1) {
                   filter.price.and.push({"lte" : prices[1]});
-                  sails.log.trace("Pushed upper price boundary %d", prices[1]);
+                  sails.log.verbose("Pushed upper price boundary %d", prices[1]);
               }
             });
-            sails.log.trace("Advert price filter: %j", filter.price);
+            sails.log.verbose("Advert price filter: %j", filter.price);
           }
 
         }
-        if (req.param('q')){
+        if (req.param('q') && req.param('q') !== ""){
             sails.log.debug('Query: %s', req.param('q'));
             filter.or = [{'advertTitle' : {'contains' : req.param('q')}}, {'advertBody' : {'contains' : req.param('q')}}]
         }
