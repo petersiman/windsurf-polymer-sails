@@ -4,17 +4,36 @@
       iron-image {
         width: 100%;
       }
+      .image-controls-btn {
+        z-index: 10;
+      }
+
+      .images {
+        position: relative;
+        left: -80px;
+      }
+
+      #next-button {
+        position: relative;
+        left: -160px;
+      }
+
+      .images {
+        width: 100%;
+      }
 
 		</style>
 		<template>
 			<style is="detail-view-style">
 			</style>
-      <paper-button id="prev-button"><</paper-button>
-      <template is="dom-repeat" items="[[images]]" as="imageId" indexAs="idx">
-        <iron-image	hidden$="[[_isHidden(idx)]]" src="http://res.cloudinary.com/dk2nkldll/h_300/[[imageId]]">
-        </iron-image>
-      </template>
-      <paper-button id="next-button">></paper-button>
+      <paper-button id="prev-button" class="image-controls-btn"><</paper-button>
+      <div class="images">
+        <template is="dom-repeat" items="[[images]]" as="imageId" indexAs="idx">
+          <iron-image	hidden$="{{_isHidden(idx)}}" src="http://res.cloudinary.com/dk2nkldll/h_300/[[imageId]]">
+          </iron-image>
+        </template>
+      </div>
+      <paper-button id="next-button" class="image-controls-btn">></paper-button>
     </template>
     <script>
       Polymer({
