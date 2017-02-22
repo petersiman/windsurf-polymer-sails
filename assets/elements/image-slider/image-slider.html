@@ -1,0 +1,57 @@
+<!doctype html>
+<dom-module id="image-slider">
+		<style>
+      iron-image {
+        width: 100%;
+      }
+
+		</style>
+		<template>
+			<style is="detail-view-style">
+			</style>
+      <paper-button id="prev-button"><</paper-button>
+      <template is="dom-repeat" items="[[images]]" as="imageId" indexAs="idx">
+        <iron-image	hidden$="[[_isHidden(idx)]]" src="http://res.cloudinary.com/dk2nkldll/h_300/[[imageId]]">
+        </iron-image>
+      </template>
+      <paper-button id="next-button">></paper-button>
+    </template>
+    <script>
+      Polymer({
+        is: "image-slider",
+        listeners: {
+          "next-button.click" : "next",
+          "prev-button.click" : "prev"
+        },
+        properties: {
+          images: {
+            type: Array,
+            value: []
+          },
+          currentImage: {
+            type: Number,
+            value: 0
+          }
+        },
+        prev : function(){
+          if (this.currentImage > 0){
+            this.currentImage--;
+            this.images.push();
+          }
+          console.log("Current image: %d", this.currentImage);
+        },
+        next : function(){
+          if (this.images && this.currentImage < this.images.length - 1){
+            this.currentImage++;
+            this.images.push();
+          }
+          console.log("Current image: %d", this.currentImage);
+        },
+        _isHidden : function(idx){
+          console.log("Checking idx %d", idx);
+          return idx !== currentImage;
+        }
+
+      });
+    </script>
+</dom-module>
