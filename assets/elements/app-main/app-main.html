@@ -25,7 +25,7 @@
             <paper-icon-button icon="menu"></paper-icon-button>
             <span class="title">Windsurfing portal</span>
             <paper-search-bar id="searchBar" placeholder="Search" nr-selected-filters="[[_getNrSelectedFilters(selectedFilters)]]" on-paper-search-search="loadData" data-dialog="filterDialog" on-paper-search-filter="modalBtnClickHandler"></paper-search-bar>
-            <paper-icon-button icon="add" data-dialog="add-item-modal" id="add-item-button" alt="Add new"></paper-icon-button>
+            <paper-icon-button icon="add" data-dialog="addItemModal" id="add-item-button" alt="Add new"></paper-icon-button>
             <paper-menu-button dynamic-align="true">
               <paper-icon-button icon="account-circle" class="dropdown-trigger">
               </paper-icon-button>
@@ -33,7 +33,7 @@
                 <paper-item
                   hidden$="[[loggedIn]]"
                   id="login-button"
-                  data-dialog="login-modal">
+                  data-dialog="loginModal">
                     Login
                 </paper-item>
                 <paper-item

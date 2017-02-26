@@ -28,10 +28,8 @@
 			</style>
       <paper-button id="prev-button" class="image-controls-btn"><</paper-button>
       <div class="images">
-        <template is="dom-repeat" items="[[images]]" as="imageId" indexAs="idx">
-          <iron-image	hidden$="{{_isHidden(idx)}}" src="http://res.cloudinary.com/dk2nkldll/h_300/[[imageId]]">
-          </iron-image>
-        </template>
+        <iron-image	hidden$="{{_isHidden(idx)}}" src="[[imageUrl]]">
+        </iron-image>
       </div>
       <paper-button id="next-button" class="image-controls-btn">></paper-button>
     </template>
@@ -42,6 +40,7 @@
           "next-button.click" : "next",
           "prev-button.click" : "prev"
         },
+        urlPrefix : "http://res.cloudinary.com/dk2nkldll/h_300/",
         properties: {
           images: {
             type: Array,
@@ -50,26 +49,26 @@
           currentImage: {
             type: Number,
             value: 0
+          },
+          imageUrl: {
+            type: String,
+            value: "/images/grumpycat.png"
           }
         },
         prev : function(){
           if (this.currentImage > 0){
             this.currentImage--;
-            this.images.push();
           }
+          this.imageUrl = this.urlPrefix + this.images[this.currentImage];
           console.log("Current image: %d", this.currentImage);
         },
         next : function(){
           if (this.images && this.currentImage < this.images.length - 1){
             this.currentImage++;
-            this.images.push();
           }
+          this.imageUrl = this.urlPrefix + this.images[this.currentImage];
           console.log("Current image: %d", this.currentImage);
-        },
-        _isHidden : function(idx){
-          console.log("Checking idx %d", idx);
-          return idx !== currentImage;
-        }
+        }	
 
       });
     </script>

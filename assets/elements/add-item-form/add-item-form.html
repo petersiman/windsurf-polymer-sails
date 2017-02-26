@@ -4,7 +4,7 @@
   <link rel="import" href="../../bower_components/file-upload/file-upload.html" />
   <template>
       <iron-ajax url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
-      <paper-dialog id="add-item-modal" modal>
+      <paper-dialog id="addItemModal" modal>
         <h2>{{title}}</h2>
         <paper-dialog-scrollable>
           <div class="card-content">
@@ -31,14 +31,18 @@
                  </paper-listbox>
                </paper-dropdown-menu>
                <br />
-               <paper-textarea label="Popis" id="advertBody" name="advertBody" value="{{advert.advertBody}}" required auto-validate error-message="Enter description!">
+               <paper-textarea label="Popis" id="advertBody" name="advertBody"
+               value="{{advert.advertBody}}" required auto-validate error-message="Enter description!">
                </paper-textarea>
                <br />
-               <paper-input id="price" name="price" allowed-pattern="[0-9]" label="Price" value="{{advert.price}}" autofocus required auto-validate error-message="Enter valid price!">
+               <paper-input id="price" name="price" allowed-pattern="[0-9]"
+               label="Price" value="{{advert.price}}" autofocus required auto-validate error-message="Enter valid price!">
                   <div suffix>Kc</div>
                </paper-input>
                <h3>Upload images</h3>
-               <file-upload id="file-upload" droppable="true" method="POST" raised="true" file-data-name="image" accept="image/*" additional="{{token}}" target="/advert/upload" multi="true"></file-upload>
+               <file-upload id="file-upload" droppable="true" method="POST"
+               raised="true" file-data-name="image" accept="image/*"
+               additional="{{token}}" target="/advert/upload" multi="true"></file-upload>
                <div hidden$="[[files]]">
                  <span>Upload some images</span>
                </div>
@@ -90,7 +94,7 @@
           'method' : 'post',
           'body' : formData,
         });
-        this.$.add-item-modal.close();
+        this.$.addItemModal.close();
       },
       fileUploadSuccessListener: function(e, data){
         var self = this;

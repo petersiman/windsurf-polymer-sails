@@ -2,14 +2,17 @@
   <link rel="import" type="css" href="login-form.css">
   <template>
     <iron-ajax id="csrfTokenAjaxRequest" url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
-    <paper-dialog id="login-modal" dynamic-align="true" modal>
+    <paper-dialog id="loginModal" dynamic-align="true" modal>
       <h2>Login</h2>
+      <h3 hidden$="[[!loginError]]">User couldn't be logged in!</h3>
+      <h3 hidden$="[[!loggedInMsg]]">User was successfuly logged in!.</h3>
       <div class="card-content">
         <form is="iron-form" method="post" action="/auth/local" id="loginForm">
           <input type="hidden" name="_csrf" value="{{token._csrf}}"/>
           <paper-input id="username" name="username" label="Username" value=""
-                       autofocus></paper-input>
-          <paper-input id="password" name="password" label="Password" type="password" value=""></paper-input>
+                       autofocus required auto-validate error-message="Enter username!"></paper-input>
+          <paper-input id="password" name="password" label="Password" type="password" value="" onerror=""
+          required auto-validate error-message="Enter password!"></paper-input>
           <div class="layout horizontal">
               <paper-checkbox class="remember-me" on-click="">Remember me</paper-checkbox>
           </div>
@@ -53,32 +56,51 @@
           type: Array,
           notify: true,
           value: []
+        },
+        loginError : {
+          type: Boolean,
+          value: false
+        },
+        loggedInMsg : {
+          type: Boolean,
+          value: false
         }
       },
       login: function(){
+        var self = this;
+        this.loginError = false;
         var loginReq = this.$.loginXhrRequest;
         console.log('Login pressed');
         var loginForm = this.$.loginForm;
-        loginReq.send({
+        var loginPromise = loginReq.send({
           'url': '/auth/local',
           'method': 'post',
           'body' : JSON.stringify(loginForm.serialize())
         });
+
+        loginPromise.then(function(ajax){
+          var data = ajax.parseResponse();
+          self.loginCallback(data);
+        }, function(err){
+          console.error(err, "Error during log in callback")
+        })
         this.$.csrfTokenAjaxRequest.generateRequest();
       },
       loginCallback: function(data){
+        console.log("Log in callback. Data %s", data);
         var data = JSON.parse(data);
-        if (data.result === 'success'){
-          this.$.successModal.open();
+        if (data.result === 'logged-in'){
           var self = this;
-          window.setTimeout(1000, function(){
-            self.$.successModal.close();
-          })
+          this.loggedInMsg = true;
+          window.setTimeout(function(){
+            self.$.loginModal.close();
+            self.$.loggedInMsg = false;
+          }, 2000)
         } else if (data.err) {
+            this.loginError = true;
             console.log("Error: " + data.err);
         }
         console.log(data);
-        this.$.login-modal.close();
       },
       errorCallback : function(data){
         console.log('Error');
