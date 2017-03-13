@@ -1,4 +1,5 @@
 <dom-module id="registration-form">
+  <link rel="import" href="../../bower_components/re-captcha/re-captcha.html">
   <template>
     <iron-ajax id="csrfTokenAjaxRequest" url="/csrfToken" last-response="{{token}}" auto></iron-ajax>
     <paper-dialog id="registration-modal" modal>
@@ -11,12 +12,15 @@
           <paper-input id="email" name="email" auto-validate label="Email" value="" required type="email" error-message="Enter email address!"></paper-input>
           <paper-input id="password" name="password" label="Password" auto-validate type="password" value="" required></paper-input>
           <paper-input id="password2" name="password2" label="Repeat password" auto-validate type="password" value="" required></paper-input>
+          <iron-label>Are you a robot?
+            <re-captcha id="reCaptcha" response="{{captchaResponse}}" sitekey="6Le3zBgUAAAAAOSAVETJmN6LdYzwMuvA_-U7zBgk"></re-captcha>
+          </iron-label>
         </form>
 
       </div>
       <div class="buttons">
         <paper-button dialog-confirm autofocus>Close</paper-button>
-        <paper-button on-click="register">Register</paper-button>
+        <paper-button id="registerBtn" on-click="register" disabled>Register</paper-button>
       </div>
       <paper-toast id="toast" text=""></paper-toast>
       <iron-a11y-keys target="{{dialog}}" keys="enter" on-keys-pressed="register"></iron-a11y-keys>
@@ -33,9 +37,20 @@
   <script>
     Polymer({
       is: "registration-form",
+      listeners: {
+        "captcha-response" : "captchaCallbackHandler"
+      },
       properties: {
+        "captchaResponse" : {
+          type: String,
+          value: ""
+        }
       },
       register: function(){
+        if (!this.captchaResponse){
+          console.log("Captcha is missing");
+          return;
+        }
         var registerXhr = this.$.registerXhrRequest;
         console.log('Register pressed');
         var registrationForm = this.$.registrationForm;
@@ -59,6 +74,13 @@
         }
         console.log(data);
         this.$.registration-modal.close();
+      },
+      captchaCallbackHandler : function(){
+        console.log("In captcha callback handler.");
+        console.log("Got Captcha respone '%j'", this.captchaResponse);
+        if (this.captchaResponse){
+          this.$.registerBtn.disabled = false;
+        }
       },
       errorCallback : function(data){
         console.log('Error');
