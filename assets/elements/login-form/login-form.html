@@ -64,6 +64,10 @@
         loggedInMsg : {
           type: Boolean,
           value: false
+        },
+        loggedIn: {
+          type: Boolean,
+          value: false
         }
       },
       login: function(){
@@ -92,6 +96,7 @@
         if (data.result === 'logged-in'){
           var self = this;
           this.loggedInMsg = true;
+          this.loggedIn = true;
           window.setTimeout(function(){
             self.$.loginModal.close();
             self.$.loggedInMsg = false;
