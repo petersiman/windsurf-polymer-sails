@@ -7,6 +7,7 @@
   <link rel="import" href="../../elements/search-bar/search-bar.html">
   <link rel="import" href="../../elements/detail-view/detail-view.html">
   <link rel="import" href="../../elements/registration-form/registration-form.html">
+  <link rel="import" href="../../elements/my-account/my-account.html">
 
   <template>
 
@@ -31,20 +32,25 @@
               </paper-icon-button>
               <paper-listbox class="dropdown-content">
                 <paper-item
-                  hidden$="[[loggedIn]]"
+                  hidden$="[[_isLoggedIn]]"
                   id="login-button"
                   data-dialog="loginModal">
                     Login
                 </paper-item>
                 <paper-item
-                  hidden$="[[loggedIn]]"
+                  hidden$="[[_isLoggedIn]]"
                   id="registration-button"
                   data-dialog="registration-modal">
                   Register
                 </paper-item>
-                <paper-item hidden$="[[!loggedIn]]">My account</paper-idem>
                 <paper-item
-                  hidden$="[[!loggedIn]]"
+                hidden$="[[!_isLoggedIn]]"
+                id="my-account-button"
+                data-dialog="my-account-dialog">
+                My account
+              </paper-item>
+                <paper-item
+                  hidden$="[[!_isLoggedIn]]"
                   id="logout-button"
                   on-click="logout">
                   Log out
@@ -58,7 +64,7 @@
 
           <login-form loggedIn="{{loggedIn}}"></login-form>
           <registration-form></registration-form>
-          <my-account-modal></my-account-modal>
+          <my-account></my-account>
           <add-item-form></add-item-form>
           <search-bar adverts="[[adverts]]" loading="[[loading]]"></search-bar>
 
@@ -70,7 +76,8 @@
       listeners: {
         'login-button.click': 'modalBtnClickHandler',
         'registration-button.click' : 'modalBtnClickHandler',
-        'add-item-button.click': 'modalBtnClickHandler'
+        'add-item-button.click': 'modalBtnClickHandler',
+        'my-account-button.click': 'modalBtnClickHandler'
       },
       modalBtnClickHandler: function(e){
         var button = e.target;
@@ -110,6 +117,16 @@
             this.push('adverts', item);
           }, this);
         }
+      },
+      _isLoggedIn(){
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) {
+          var cookie = parts.pop().split(";").shift();
+          return true;
+        }
+
+        return false;
       },
       _getNrSelectedFilters: function(selectedFilters) {
   			if (Object.keys(selectedFilters).length <= 0) {

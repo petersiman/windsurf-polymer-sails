@@ -1,0 +1,22 @@
+<!doctype html>
+<dom-module id="my-account">
+  <template>
+      <paper-dialog id="my-account-dialog">
+        <paper-tabs selected="0">
+          <paper-tab>My account</paper-tab>
+          <paper-tab>My adverts</paper-tab>
+        </paper-tabs>
+      </paper-dialog>
+  </template>
+  <script>
+    Polymer({
+      is: "my-account",
+      properties: {
+        "user" : {
+          type : Object,
+          value : {}
+        }
+      }
+    });
+  </script>
+</dom-module>

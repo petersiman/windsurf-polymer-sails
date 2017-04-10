@@ -21,6 +21,7 @@
     "express": "^4.9.5",
     "moment": "~2.11.0",
     "passport": "~0.3.2",
+    "passport-facebook": "^2.1.1",
     "passport-google-oauth": "~0.2.0",
     "passport-local": "~1.0.0",
     "sails": "^0.10.5",
